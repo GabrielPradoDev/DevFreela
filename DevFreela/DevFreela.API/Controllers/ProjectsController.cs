@@ -1,4 +1,5 @@
 ﻿using DevFreela.API.Models;
+using DevFreela.API.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
@@ -9,16 +10,20 @@ namespace DevFreela.API.Controllers
     public class ProjectsController : ControllerBase
     {
         private readonly FreeLanceTotalCostConfig _config;
-        public ProjectsController(IOptions<FreeLanceTotalCostConfig> options)
+        private readonly IConfigService _configService;
+        public ProjectsController(
+            IOptions<FreeLanceTotalCostConfig> options,
+            IConfigService configService)
         {
             _config = options.Value;
+            _configService = configService;
         }
-
+            
         // GET api/projects?search=crm
         [HttpGet]
-        public IActionResult Get(string search)
+        public IActionResult Get(string search = "")
         {
-            return Ok();
+            return Ok(_configService.Getvalue());
         }
 
         // GET api/projects/1234
@@ -26,6 +31,7 @@ namespace DevFreela.API.Controllers
 
         public IActionResult GetById(int id)
         {
+            throw new Exception();
             return Ok();
         }
 
